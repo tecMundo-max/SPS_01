@@ -1,0 +1,7 @@
+/
+├── index.html          ← login
+├── home.html           ← página inicial após login (placeholder)
+├── firebase-config.js
+├── auth.js             ← núcleo da autenticação
+└── style.css
+
