@@ -22,7 +22,8 @@ function validarChamado(valor) {
   const v = valor.trim().toUpperCase();
 
   // regra do original
-  return v.startsWith("PDST-");
+ // return v.startsWith("PDST-");
+  return v.startsWith("INC-");
 }
 
 
@@ -71,7 +72,7 @@ const chamadoRaw = inChamado.value;
 const chamado = chamadoRaw.trim().toUpperCase();
 
 if (!validarChamado(chamado)) {
-  alert("O chamado deve começar com PDST-");
+  alert("O chamado deve começar com INC-");
   inChamado.focus();
   return;
 }
