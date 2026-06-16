@@ -1,7 +1,7 @@
 /* ======================================================
    SysSpsHjr
    Tema: Windows 11 Dark
-   Arquivo único: style.css
+   SPS v4.1
    ====================================================== */
 
 :root {
@@ -22,6 +22,7 @@
 }
 
 /* ===== Base ===== */
+
 * {
   box-sizing: border-box;
 }
@@ -32,9 +33,11 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Segoe UI", system-ui, Arial, sans-serif;
+  font-size: 14px;
 }
 
 /* ===== Topbar ===== */
+
 .topbar {
   display: flex;
   align-items: center;
@@ -43,18 +46,20 @@ body {
 }
 
 .topbar h1 {
-  font-size: 18px;
+  font-size: 20px;
   margin: 0;
 }
 
 /* ===== Botões ===== */
+
 button {
   cursor: pointer;
   border-radius: 6px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
-  padding: 6px 12px;
+  padding: 8px 14px;
+  font-size: 14px;
 }
 
 button.primary {
@@ -69,24 +74,41 @@ button.danger {
 }
 
 button.logout {
-  font-size: 11px;
-  padding: 4px 8px;
+  font-size: 12px;
+  padding: 6px 10px;
 }
 
 /* ===== Painéis ===== */
+
 .panel {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 12px;
+  padding: 16px;
   margin-bottom: 16px;
 }
 
+.panel h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 24px;
+  font-weight: 600;
+}
+
 /* ===== Formulário ===== */
+
 .grid.form {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(260px, 320px)
+    );
+
+  gap: 14px;
+
+  justify-content: start;
 }
 
 @media (max-width: 900px) {
@@ -102,10 +124,13 @@ button.logout {
 }
 
 label {
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 500;
+
   display: flex;
   flex-direction: column;
-  gap: 4px;
+
+  gap: 5px;
 }
 
 label.req::after {
@@ -118,10 +143,16 @@ input,
 select,
 textarea {
   background: var(--field);
+
   border: 1px solid var(--border);
+
   color: var(--text);
-  padding: 6px;
+
+  padding: 8px 10px;
+
   border-radius: 6px;
+
+  font-size: 14px;
 }
 
 input::placeholder,
@@ -135,26 +166,38 @@ textarea:hover {
   background: var(--field-hover);
 }
 
-textarea {
-  resize: vertical;
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
 }
 
-/* ===== Tabela (estilo Excel escuro) ===== */
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ===== Tabela ===== */
+
 table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 thead th {
   text-align: left;
-  padding: 6px 8px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  font-weight: 600;
 }
 
 tbody td {
-  padding: 6px 8px;
+  padding: 8px;
   border-bottom: 1px solid var(--border);
+  vertical-align: middle;
 }
 
 tbody tr:nth-child(even) {
@@ -165,7 +208,63 @@ tbody tr:hover {
   background: var(--row-hover);
 }
 
+#tblChamados {
+  font-size: 14px;
+}
+
+#tblChamados button {
+  min-width: 34px;
+  padding: 4px 8px;
+  margin-right: 4px;
+}
+
+/* ===== Total Encontrado ===== */
+
+#totalEncontrado {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+/* ===== Modal ===== */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.65);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 900px;
+
+  background: var(--panel);
+
+  border: 1px solid var(--border);
+
+  border-radius: 10px;
+
+  padding: 20px;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+/* ===== Scroll tabela ===== */
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
 /* ===== Utilidades ===== */
+
 .muted {
   color: var(--muted);
 }
