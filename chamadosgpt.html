@@ -2,12 +2,11 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Chamados • SPS (v4.0.0)</title>
+  <title>SPS • Chamados v4</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <link rel="stylesheet" href="./style.css" />
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 </head>
@@ -15,10 +14,14 @@
 <body>
 
 <header class="topbar">
-  <div class="brand">SPS • Chamados</div>
+  <div class="brand">
+    SPS • Chamados
+  </div>
 
   <nav class="nav">
-    <button id="logoutBtn" class="btn danger outline">
+    <button
+      id="logoutBtn"
+      class="btn danger outline">
       Sair
     </button>
   </nav>
@@ -34,10 +37,12 @@
 
     <h2>Inclusão de Chamado</h2>
 
-    <form id="formChamado" class="grid form" autocomplete="off">
+    <form
+      id="formChamado"
+      class="grid form"
+      autocomplete="off">
 
       <input type="hidden" id="chamadoId" />
-      <input type="hidden" id="msisdnOld" />
 
       <label>
         Analista
@@ -54,7 +59,7 @@
           type="datetime-local" />
       </label>
 
-      <label class="req">
+      <label>
         Chamado
         <input
           id="chamado"
@@ -62,7 +67,7 @@
           required />
       </label>
 
-      <label class="req">
+      <label>
         MSISDN
         <input
           id="msisdn"
@@ -80,7 +85,253 @@
         <select id="cenarioSelect"></select>
       </label>
 
+      <label>
+        Observações
+        <input
+          id="observacoes"
+          type="text"
+          maxlength="500" />
+      </label>
+
+      <div style="grid-column:1/-1">
+
+        <button
+          type="submit"
+          class="btn primary">
+          Salvar
+        </button>
+
+        <button
+          type="button"
+          id="btnCancelar"
+          class="btn">
+          Cancelar
+        </button>
+
+      </div>
+
+    </form>
+
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- BOX 2 - PESQUISA                                      -->
+  <!-- ===================================================== -->
+
+  <section class="panel">
+
+    <h2>Pesquisa</h2>
+
+    <div class="grid form">
+
+      <label>
+        Data Inicial
+        <input
+          type="date"
+          id="fDataIni">
+      </label>
+
+      <label>
+        Data Final
+        <input
+          type="date"
+          id="fDataFim">
+      </label>
+
+      <label>
+        Analista
+        <input
+          type="text"
+          id="fAnalista">
+      </label>
+
+      <label>
+        Chamado
+        <input
+          type="text"
+          id="fChamado">
+      </label>
+
+      <label>
+        Linha
+        <input
+          type="text"
+          id="fLinha">
+      </label>
+
+      <label>
+        Equipamento
+        <select id="fEquipamento">
+          <option value="">
+            Todos
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Cenário
+        <select id="fCenario">
+          <option value="">
+            Todos
+          </option>
+        </select>
+      </label>
+
+    </div>
+
+    <br>
+
+    <button
+      id="btnPesquisar"
+      type="button">
+      Pesquisar
+    </button>
+
+    <button
+      id="btnLimpar"
+      type="button">
+      Limpar
+    </button>
+
+    <button
+      id="btnHoje"
+      type="button">
+      Hoje
+    </button>
+
+    <span
+      id="totalEncontrado"
+      style="margin-left:20px;font-weight:bold">
+
+      Total encontrado: 0
+
+    </span>
+
+  </section>
+
+  <!-- ===================================================== -->
+  <!-- LISTA DE CHAMADOS                                     -->
+  <!-- ===================================================== -->
+
+  <section class="panel">
+
+    <h2>Lista de Chamados</h2>
+
+    <table
+      class="table"
+      id="tblChamados">
+
+      <thead>
+
+        <tr>
+
+          <th>Data/Hora</th>
+
+          <th>Analista</th>
+
+          <th>Chamado</th>
+
+          <th>MSISDN</th>
+
+          <th>Equipamento</th>
+
+          <th>Cenário</th>
+
+          <th>Observações</th>
+
+          <th id="thAcoes">
+            Ações
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody></tbody>
+
+    </table>
+
+  </section>
+
+</main>
+
+<!-- ===================================================== -->
+<!-- MODAL EDIÇÃO                                           -->
+<!-- ===================================================== -->
+
+<div
+  id="modalEditar"
+  style="display:none;"
+  class="modal">
+
+  <div class="modal-content">
+
+    <h2>Editar Chamado</h2>
+
+    <input
+      type="hidden"
+      id="editId">
+
+    <div class="grid form">
+
+      <label>
+        Chamado
+        <input
+          type="text"
+          id="editChamado">
+      </label>
+
+      <label>
+        MSISDN
+        <input
+          type="text"
+          id="editMsisdn">
+      </label>
+
+      <label>
+        Equipamento
+        <select id="editEquipamento"></select>
+      </label>
+
+      <label>
+        Cenário
+        <select id="editCenario"></select>
+      </label>
+
       <label style="grid-column:1/-1">
         Observações
         <textarea
-          id="
+          id="editObservacoes"
+          rows="4"></textarea>
+      </label>
+
+    </div>
+
+    <br>
+
+    <button
+      id="btnSalvarEdicao"
+      class="btn primary">
+
+      Salvar Alterações
+
+    </button>
+
+    <button
+      id="btnCancelarEdicao"
+      class="btn">
+
+      Cancelar
+
+    </button>
+
+  </div>
+
+</div>
+
+<script src="firebase-config.js"></script>
+<script src="auth.js"></script>
+<script src="chamados.js"></script>
+
+</body>
+</html>
