@@ -400,16 +400,21 @@ function preencherComboFiltro(
 
 function aplicarFiltroHoje(){
 
+    const agora = new Date();
+
     const hoje =
-        new Date()
-            .toISOString()
-            .split("T")[0];
+        agora.getFullYear() +
+        "-" +
+        String(
+            agora.getMonth() + 1
+        ).padStart(2,"0") +
+        "-" +
+        String(
+            agora.getDate()
+        ).padStart(2,"0");
 
-    fDataIni.value =
-        hoje;
-
-    fDataFim.value =
-        hoje;
+    fDataIni.value = hoje;
+    fDataFim.value = hoje;
 
 }
 
