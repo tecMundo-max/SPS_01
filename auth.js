@@ -1,161 +1,56 @@
 // auth.js
 // SysSPS – Autenticação
-// Versão: v3.0.0
+// Versão: v2.0.0
 
 const SESSION_KEY = "sps_session";
 
 /* ===== Sessão ===== */
-
 function getSession() {
-
-const raw =
-localStorage.getItem(
-SESSION_KEY
-);
-
-return raw
-? JSON.parse(raw)
-: null;
-
+  const raw = localStorage.getItem(SESSION_KEY);
+  return raw ? JSON.parse(raw) : null;
 }
 
 function setSession(data) {
-
-localStorage.setItem(
-SESSION_KEY,
-JSON.stringify(data)
-);
-
+  localStorage.setItem(SESSION_KEY, JSON.stringify(data));
 }
 
 function clearSession() {
-
-localStorage.removeItem(
-SESSION_KEY
-);
-
+  localStorage.removeItem(SESSION_KEY);
 }
 
 /* ===== Login ===== */
+async function login(username, password) {
+  const snap = await db.ref(`app/users/${username}`).once("value");
+  if (!snap.exists()) throw new Error("Usuário não encontrado");
 
-async function login(
-username,
-password
-) {
+  const user = snap.val();
 
-username =
-username.trim();
+  if (!user.ativo) throw new Error("Usuário inativo");
+  if (user.password !== password) throw new Error("Senha inválida");
 
-const snap =
-await db
-.ref(
-`app/users/${username}`
-)
-.once("value");
+  const session = {
+    username,
+    nome: user.nome,
+    admin: !!user.admin,
+    loginAt: Date.now()
+  };
 
-if (!snap.exists()) {
-
-```
-throw new Error(
-  "Usuário não encontrado"
-);
-```
-
+  setSession(session);
+  return session;
 }
 
-const user =
-snap.val();
-
-const ativo =
-user.ativo === true ||
-user.active === true;
-
-if (!ativo) {
-
-```
-throw new Error(
-  "Usuário inativo"
-);
-```
-
-}
-
-if (
-String(user.password) !==
-String(password)
-) {
-
-```
-throw new Error(
-  "Senha inválida"
-);
-```
-
-}
-
-const admin =
-user.admin === true ||
-user.role === "admin";
-
-const nome =
-user.nome ||
-user.username ||
-username;
-
-const session = {
-
-```
-username,
-
-nome,
-
-admin,
-
-loginAt:
-  Date.now()
-```
-
-};
-
-setSession(
-session
-);
-
-return session;
-
-}
-
-/* ===== Proteção ===== */
-
+/* ===== Proteção de páginas ===== */
 function requireAuth() {
-
-const session =
-getSession();
-
-if (!session) {
-
-```
-window.location.href =
-  "./index.html";
-
-throw new Error(
-  "Não autenticado"
-);
-```
-
-}
-
-return session;
-
+  const session = getSession();
+  if (!session) {
+    window.location.href = "./index.html";
+    throw new Error("Não autenticado");
+  }
+  return session;
 }
 
 /* ===== Logout ===== */
-
 function logout() {
-
-clearSession();
-
-window.location.href =
-"./index.html";
-
+  clearSession();
+  window.location.href = "./index.html";
 }
